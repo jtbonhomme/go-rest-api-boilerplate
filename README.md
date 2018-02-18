@@ -123,3 +123,9 @@ The following references helped me :
 * https://github.com/kkamdooong/go-restful-api-example
 * https://github.com/corylanou/tns-restful-json-api
 * https://thenewstack.io/make-a-restful-json-api-go/
+
+# Todo
+
+[ ] Full swagger documentation
+[ ] Authentication
+[ ] Tests
