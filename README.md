@@ -86,3 +86,24 @@ $ swagger serve --flavor=redoc --port=6060 ./swagger.json
 ```
 This command will open your browser on the URL `localhost:6060/docs`, no need of an internet connexion to use it.
 
+# REST API
+
+## Content of the package
+
+```
+├── main.go
+├── db
+│   └── people.go
+├── handlers
+│   └── people.go
+├── model
+│   └── people.go
+```
+
+### main.go
+
+### handlers
+
+### db
+
+### models

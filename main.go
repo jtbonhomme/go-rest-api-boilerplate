@@ -57,32 +57,11 @@ package main
 import (
 	"log"
 	"net/http"
-	"time"
 
-	"github.com/gorilla/mux"
 	db "github.com/jtbonhomme/go-rest-api-boilerplate/db"
-	handler "github.com/jtbonhomme/go-rest-api-boilerplate/handlers"
-	model "github.com/jtbonhomme/go-rest-api-boilerplate/model"
+	model "github.com/jtbonhomme/go-rest-api-boilerplate/models"
+	"github.com/jtbonhomme/go-rest-api-boilerplate/router"
 )
-
-// Logger is a gorilla/mux middleware to add log to the API
-func Logger(inner http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		start := time.Now()
-
-		inner.ServeHTTP(w, r)
-
-		log.Printf(
-			"%s\t%s\t%s",
-			r.Method,
-			r.RequestURI,
-			time.Since(start),
-		)
-	})
-}
-
-// @SubApi People [/people]
-// @SubApi Allows you access to different features of the persons, name, address, etc [/people]
 
 // our main function
 func main() {
@@ -90,11 +69,6 @@ func main() {
 	db.Insert(model.Person{ID: "2", Firstname: "Koko", Lastname: "Doe", Address: &model.Address{City: "City Z", State: "State Y"}})
 	db.Insert(model.Person{ID: "3", Firstname: "Francis", Lastname: "Sunday"})
 
-	// When StrictSlash == true, if the route path is "/path/", accessing "/path" will perform a redirect to the former and vice versa.
-	router := mux.NewRouter().StrictSlash(true)
-	router.Use(Logger)
-	sub := router.PathPrefix("/v1").Subrouter()
-	sub.HandleFunc("/people", handler.GetPeople).Methods("GET")
-	sub.HandleFunc("/people/{id}", handler.GetPerson).Methods("GET")
+	router := router.NewRouter()
 	log.Fatal(http.ListenAndServe(":8000", router))
 }
