@@ -92,6 +92,10 @@ This command will open your browser on the URL `localhost:6060/docs`, no need of
 
 ```
 ├── main.go
+├── router
+│   ├── logger.go
+│   ├── routes.go
+│   └── router.go
 ├── db
 │   └── people.go
 ├── handlers
@@ -102,8 +106,20 @@ This command will open your browser on the URL `localhost:6060/docs`, no need of
 
 ### main.go
 
+### router
+
 ### handlers
 
 ### db
 
 ### models
+
+# References
+
+The following references helped me :
+
+* https://github.com/gorilla/mux
+* https://goswagger.io/
+* https://github.com/kkamdooong/go-restful-api-example
+* https://github.com/corylanou/tns-restful-json-api
+* https://thenewstack.io/make-a-restful-json-api-go/
