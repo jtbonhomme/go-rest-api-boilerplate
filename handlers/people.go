@@ -9,9 +9,20 @@ import (
 	db "github.com/jtbonhomme/go-rest-api-boilerplate/db"
 )
 
+// IDParam is used to identify a person
+//
+// swagger:parameters listPerson
+type IDParam struct {
+	// The ID of a person
+	//
+	// in: path
+	// required: true
+	ID int64 `json:"id"`
+}
+
 // GetPeople is an httpHandler for route GET /people
 func GetPeople(w http.ResponseWriter, r *http.Request) {
-	// swagger:route GET /people people listPersons
+	// swagger:route GET /people people listPeople
 	//
 	// Lists all people.
 	//
@@ -25,14 +36,10 @@ func GetPeople(w http.ResponseWriter, r *http.Request) {
 	//
 	//     Schemes: http, https
 	//
-	//     Security:
-	//       api_key: read, write
-	//       oauth: read, write
-	//
 	//     Responses:
 	//       default: genericError
-	//       200: someResponse
-	//       403: validationError
+	//       200: okResponse
+	//       404: notFoundError
 	json.NewEncoder(w).Encode(db.Get())
 }
 
@@ -52,14 +59,13 @@ func GetPerson(w http.ResponseWriter, r *http.Request) {
 	//
 	//     Schemes: http, https
 	//
-	//     Security:
-	//       api_key: read, write
-	//       oauth: read, write
+	//     Params:
+	//       id: IDParam
 	//
 	//     Responses:
 	//       default: genericError
-	//       200: someResponse
-	//       403: validationError
+	//       200: okResponse
+	//       404: notFoundError
 	params := mux.Vars(r)
 	for _, item := range db.Get() {
 		if item.ID == params["id"] {

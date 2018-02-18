@@ -1,14 +1,27 @@
 package model
 
-// Person
+// Person description.
+// swagger:model people
 type Person struct {
-	ID        string   `json:"id,omitempty"`
-	Firstname string   `json:"firstname,omitempty"`
-	Lastname  string   `json:"lastname,omitempty"`
-	Address   *Address `json:"address,omitempty"`
+	// ID of person
+	//
+	// required: true
+	ID string `json:"id,omitempty"`
+	// Firstname of person
+	//
+	// required: true
+	Firstname string `json:"firstname,omitempty"`
+	// Lastname of person
+	//
+	// required: true
+	Lastname string `json:"lastname,omitempty"`
+	// Address of person
+	//
+	// required: false
+	Address *Address `json:"address,omitempty"`
 }
 
-// Address
+// Address description
 type Address struct {
 	City  string `json:"city,omitempty"`
 	State string `json:"state,omitempty"`

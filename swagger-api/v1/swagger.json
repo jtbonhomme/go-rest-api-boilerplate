@@ -15,9 +15,9 @@
     "title": "People API.",
     "termsOfService": "there are no TOS at this moment, use at your own risk we take no responsibility",
     "contact": {
-      "name": "John Doe",
+      "name": "Jean-Thierry Bonhomme",
       "url": "http://john.doe.com",
-      "email": "john.doe@example.com"
+      "email": "jtbonhomme@gmail.com"
     },
     "license": {
       "name": "MIT",
@@ -45,27 +45,13 @@
           "people"
         ],
         "summary": "Lists all people.",
-        "operationId": "listPersons",
-        "security": [
-          {
-            "api_key": [
-              "read",
-              "write"
-            ]
-          },
-          {
-            "oauth": [
-              "read",
-              "write"
-            ]
-          }
-        ],
+        "operationId": "listPeople",
         "responses": {
           "200": {
-            "$ref": "#/responses/someResponse"
+            "$ref": "#/responses/okResponse"
           },
-          "403": {
-            "$ref": "#/responses/validationError"
+          "404": {
+            "$ref": "#/responses/notFoundError"
           },
           "default": {
             "$ref": "#/responses/genericError"
@@ -91,26 +77,23 @@
         ],
         "summary": "Lists person with id {id}.",
         "operationId": "listPerson",
-        "security": [
+        "parameters": [
           {
-            "api_key": [
-              "read",
-              "write"
-            ]
-          },
-          {
-            "oauth": [
-              "read",
-              "write"
-            ]
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "ID",
+            "description": "The ID of a person",
+            "name": "id",
+            "in": "path",
+            "required": true
           }
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/someResponse"
+            "$ref": "#/responses/okResponse"
           },
-          "403": {
-            "$ref": "#/responses/validationError"
+          "404": {
+            "$ref": "#/responses/notFoundError"
           },
           "default": {
             "$ref": "#/responses/genericError"
@@ -119,37 +102,57 @@
       }
     }
   },
-  "securityDefinitions": {
-    "api_key": {
-      "type": "apiKey",
-      "name": "KEY",
-      "in": "header"
+  "responses": {
+    "genericError": {
+      "description": "A GenericError is a swagger response to represent any kind of error",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32",
+            "x-go-name": "Code"
+          },
+          "message": {
+            "type": "string",
+            "x-go-name": "Message"
+          }
+        }
+      }
     },
-    "oauth2": {
-      "type": "oauth2",
-      "in": "header",
-      "flow": "accessCode",
-      "authorizationUrl": "/oauth2/auth",
-      "tokenUrl": "/oauth2/token",
-      "scopes": {
-        "bar": "foo"
+    "notFoundError": {
+      "description": "A NotFoundError is a swagger response to represent error when resource is not found",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32",
+            "x-go-name": "Code"
+          },
+          "message": {
+            "type": "string",
+            "x-go-name": "Message"
+          }
+        }
+      }
+    },
+    "okResponse": {
+      "description": "An OkError is a swagger response to represent the standard response when no problem occurred",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32",
+            "x-go-name": "Code"
+          },
+          "message": {
+            "type": "string",
+            "x-go-name": "Message"
+          }
+        }
       }
     }
-  },
-  "security": [
-    {
-      "api_key": []
-    }
-  ],
-  "x-meta-array": [
-    "value1",
-    "value2"
-  ],
-  "x-meta-array-obj": [
-    {
-      "name": "obj",
-      "value": "field"
-    }
-  ],
-  "x-meta-value": "value"
+  }
 }

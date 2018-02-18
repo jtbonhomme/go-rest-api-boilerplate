@@ -69,7 +69,7 @@ $ brew install go-swagger
 ### Generate swagger
 
 ```
-$ swagger generate spec -o ./swagger.json
+$ swagger generate spec -o swagger-api/v1/swagger.json && swagger validate swagger-api/v1/swagger.json
 ```
 
 ### Serve swagger documentation
@@ -77,7 +77,7 @@ $ swagger generate spec -o ./swagger.json
 #### Swagger Flavor
 
 ```
-$ swagger serve --flavor=swagger --port=6060 ./swagger.json
+$ swagger serve --flavor=swagger --port=6060 swagger-api/v1/swagger.json
 ```
 
 This command will open your browser on the URL `petstore.swagger.io` (the official [swagger](https://swagger.io/swagger-ui/) live-demo exploration tool). This server allow you to explore any swagger json file.
@@ -87,7 +87,7 @@ You can host your own swagger-ui server too: https://swagger.io/docs/swagger-too
 #### Redoc flavor
 
 ```
-$ swagger serve --flavor=redoc --port=6060 ./swagger.json
+$ swagger serve --flavor=redoc --port=6060 swagger-api/v1/swagger.json
 ```
 This command will open your browser on the URL `localhost:6060/docs`, no need of an internet connexion to use it.
 
@@ -127,14 +127,15 @@ The following references helped me :
 * http://www.gorillatoolkit.org/pkg/mux
 * https://goswagger.io/
 * https://github.com/kkamdooong/go-restful-api-example
-* https://github.com/corylanou/tns-restful-json-api
 * https://thenewstack.io/make-a-restful-json-api-go/
+* https://github.com/corylanou/tns-restful-json-api
 
 # Todo
 
-[ ] Error handling with consistent http codes implementation
-[ ] Versionning with version.go or local json file
-[ ] Full swagger documentation
-[ ] Authentication
-[ ] Tests
-[ ] gRPC example/version
+[] Error handling for any system call
+[] Http StatusCode handling with consistent http codes implementation
+[] Versionning with version.go or local json file
+[] Full swagger documentation
+[] Authentication
+[] Unitary and system Tests
+[] gRPC example/version
