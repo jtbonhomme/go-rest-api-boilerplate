@@ -138,13 +138,13 @@ The following references helped me :
 
 # Todo
 
-[] Error handling for any system call
-[] Add correct Content-type headers
-[] Http StatusCode handling with consistent http codes implementation
-[] Versionning with version.go or local json file
-[] Full swagger documentation
-[] Authentication
-[] Production ready logs
-[] Unitary and system Tests
-[] Rate limit
-[] gRPC example/version
+- [ ] Error handling for any system call
+- [ ] Add correct Content-type headers
+- [ ] Http StatusCode handling with consistent http codes implementation
+- [ ] Versionning with version.go or local json file
+- [ ] Full swagger documentation
+- [ ] Authentication
+- [ ] Production ready logs
+- [ ] Unitary and system Tests
+- [ ] Rate limit
+- [ ] gRPC example/version
