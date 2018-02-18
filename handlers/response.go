@@ -1,34 +1,27 @@
 package handler
 
-// A NotFoundError is a swagger response to represent error when resource is not found
+import model "github.com/jtbonhomme/go-rest-api-boilerplate/models"
+
+// JsonError is a generic error in JSON format
 //
-// swagger:response notFoundError
-type notFoundError struct {
+// swagger:response jsonError
+type jsonError struct {
 	// in: body
-	Body struct {
-		Code    int32  `json:"code"`
-		Message string `json:"message"`
-	} `json:"body"`
+	Message string `json:"message"`
 }
 
-// A GenericError is a swagger response to represent any kind of error
+// PersonResponse contains a single person information
 //
-// swagger:response genericError
-type genericError struct {
+// swagger:response personResponse
+type personResponse struct {
 	// in: body
-	Body struct {
-		Code    int32  `json:"code"`
-		Message string `json:"message"`
-	} `json:"body"`
+	Payload *model.Person `json:"person"`
 }
 
-// An OkError is a swagger response to represent the standard response when no problem occurred
+// PeopleResponse constains all people from database information
 //
-// swagger:response okResponse
-type okResponse struct {
+// swagger:response peopleResponse
+type peopleResponse struct {
 	// in: body
-	Body struct {
-		Code    int32  `json:"code"`
-		Message string `json:"message"`
-	} `json:"body"`
+	Payload *[]model.Person `json:"people"`
 }

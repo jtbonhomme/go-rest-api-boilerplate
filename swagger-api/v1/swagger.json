@@ -30,7 +30,7 @@
   "paths": {
     "/people": {
       "get": {
-        "description": "This will show all available recorded people.",
+        "description": "This will show all recorded people.",
         "consumes": [
           "application/json"
         ],
@@ -48,10 +48,7 @@
         "operationId": "listPeople",
         "responses": {
           "200": {
-            "$ref": "#/responses/okResponse"
-          },
-          "404": {
-            "$ref": "#/responses/notFoundError"
+            "$ref": "#/responses/peopleResponse"
           },
           "default": {
             "$ref": "#/responses/genericError"
@@ -75,7 +72,7 @@
         "tags": [
           "people"
         ],
-        "summary": "Lists person with id {id}.",
+        "summary": "Lists person from their id.",
         "operationId": "listPerson",
         "parameters": [
           {
@@ -90,16 +87,64 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/okResponse"
+            "$ref": "#/responses/personResponse"
           },
           "404": {
-            "$ref": "#/responses/notFoundError"
+            "$ref": "#/responses/jsonError"
           },
           "default": {
             "$ref": "#/responses/genericError"
           }
         }
       }
+    }
+  },
+  "definitions": {
+    "Address": {
+      "description": "Address description",
+      "type": "object",
+      "properties": {
+        "city": {
+          "type": "string",
+          "x-go-name": "City"
+        },
+        "state": {
+          "type": "string",
+          "x-go-name": "State"
+        }
+      },
+      "x-go-package": "github.com/jtbonhomme/go-rest-api-boilerplate/models"
+    },
+    "person": {
+      "type": "object",
+      "title": "Person description.",
+      "required": [
+        "id",
+        "firstname",
+        "lastname"
+      ],
+      "properties": {
+        "address": {
+          "$ref": "#/definitions/Address"
+        },
+        "firstname": {
+          "description": "Firstname of person",
+          "type": "string",
+          "x-go-name": "Firstname"
+        },
+        "id": {
+          "description": "ID of person",
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "lastname": {
+          "description": "Lastname of person",
+          "type": "string",
+          "x-go-name": "Lastname"
+        }
+      },
+      "x-go-name": "Person",
+      "x-go-package": "github.com/jtbonhomme/go-rest-api-boilerplate/models"
     }
   },
   "responses": {
@@ -120,38 +165,22 @@
         }
       }
     },
-    "notFoundError": {
-      "description": "A NotFoundError is a swagger response to represent error when resource is not found",
+    "jsonError": {
+      "description": "A JsonError is a generic error in JSON format"
+    },
+    "peopleResponse": {
+      "description": "A PeopleResponse constains all people information",
       "schema": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer",
-            "format": "int32",
-            "x-go-name": "Code"
-          },
-          "message": {
-            "type": "string",
-            "x-go-name": "Message"
-          }
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/person"
         }
       }
     },
-    "okResponse": {
-      "description": "An OkError is a swagger response to represent the standard response when no problem occurred",
+    "personResponse": {
+      "description": "A PersonResponse contains a person information",
       "schema": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer",
-            "format": "int32",
-            "x-go-name": "Code"
-          },
-          "message": {
-            "type": "string",
-            "x-go-name": "Message"
-          }
-        }
+        "$ref": "#/definitions/person"
       }
     }
   }

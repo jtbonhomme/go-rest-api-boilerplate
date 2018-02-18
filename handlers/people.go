@@ -26,7 +26,7 @@ func GetPeople(w http.ResponseWriter, r *http.Request) {
 	//
 	// Lists all people.
 	//
-	// This will show all available recorded people.
+	// This will show all recorded people.
 	//
 	//     Consumes:
 	//     - application/json
@@ -37,17 +37,17 @@ func GetPeople(w http.ResponseWriter, r *http.Request) {
 	//     Schemes: http, https
 	//
 	//     Responses:
-	//       default: genericError
-	//       200: okResponse
-	//       404: notFoundError
+	//       200: peopleResponse
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(db.Get())
 }
 
-// GetPerson is an httpHandler for route GET /people/:id
+// GetPerson is an httpHandler for route GET /people/{id}
 func GetPerson(w http.ResponseWriter, r *http.Request) {
 	// swagger:route GET /people/{id} people listPerson
 	//
-	// Lists person with id {id}.
+	// Lists person from their id.
 	//
 	// This will show the record of an identified person.
 	//
@@ -63,13 +63,22 @@ func GetPerson(w http.ResponseWriter, r *http.Request) {
 	//       id: IDParam
 	//
 	//     Responses:
-	//       default: genericError
-	//       200: okResponse
-	//       404: notFoundError
+	//       200: personResponse
+	//       404: jsonError
 	params := mux.Vars(r)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	for _, item := range db.Get() {
 		if item.ID == params["id"] {
-			json.NewEncoder(w).Encode(item)
+			w.WriteHeader(http.StatusOK)
+			if err := json.NewEncoder(w).Encode(item); err != nil {
+				panic(err)
+			}
+			return
 		}
+	}
+	// If we didn't find it, 404
+	w.WriteHeader(http.StatusNotFound)
+	if err := json.NewEncoder(w).Encode(jsonError{Message: "Not Found"}); err != nil {
+		panic(err)
 	}
 }

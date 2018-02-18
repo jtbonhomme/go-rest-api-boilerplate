@@ -41,7 +41,7 @@ Then verify that gin was installed correctly:
 $ gin -h
 ```
 
-Usage:
+Start gin proxy to listen on port 3000 and send request to proxied app listening on port 8000:
 ```
 $ gin run -p 3000 -a 8000 main.go
 ```
@@ -109,9 +109,13 @@ This command will open your browser on the URL `localhost:6060/docs`, no need of
 ├── db
 │   └── people.go
 ├── handlers
-│   └── people.go
+│   ├── people.go
+│   └── response.go
 ├── model
 │   └── people.go
+└── swagger-api
+    └── v1
+        └── swagger.json
 ```
 
 ### main.go
@@ -139,11 +143,15 @@ The following references helped me :
 # Todo
 
 - [ ] Error handling for any system call
-- [ ] Add correct Content-type headers
-- [ ] Http StatusCode handling with consistent http codes implementation
-- [ ] Versionning with version.go or local json file
+- [X] Add correct Content-type headers
+- [ ] Handle correctly Accept headers
+- [ ] Add pagination for collections/models getters
+- [ ] Http StatusCode handling with consistent http codes implementation
+- [ ] Versionning with version.go or local json file (pathPrefix)
 - [ ] Full swagger documentation
 - [ ] Authentication
+- [ ] Handle [eTags](http://en.wikipedia.org/wiki/HTTP_ETag)
+- [ ] Add environment variable such as listening port
 - [ ] Production ready logs
 - [ ] Unitary and system Tests
 - [ ] Rate limit
