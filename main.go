@@ -32,10 +32,19 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/rs/cors"
+
 	db "github.com/jtbonhomme/go-rest-api-boilerplate/db"
 	model "github.com/jtbonhomme/go-rest-api-boilerplate/models"
 	"github.com/jtbonhomme/go-rest-api-boilerplate/router"
 )
+
+// setupGlobalMiddleware will setup CORS
+func setupGlobalMiddleware(handler http.Handler) http.Handler {
+	handleCORS := cors.Default().Handler
+
+	return handleCORS(handler)
+}
 
 // our main function
 func main() {
@@ -44,5 +53,5 @@ func main() {
 	db.Insert(model.Person{ID: "3", Firstname: "Francis", Lastname: "Sunday"})
 
 	router := router.NewRouter()
-	log.Fatal(http.ListenAndServe(":8000", router))
+	log.Fatal(http.ListenAndServe(":8000", setupGlobalMiddleware(router)))
 }

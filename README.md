@@ -19,6 +19,11 @@ Install `gorilla/mux`:
 $ go get github.com/gorilla/mux
 ```
 
+Install CORS middleware `rs/cors`:
+```
+$ go get github.com/rs/cors
+```
+
 ## Live reload
 [gin](https://github.com/codegangsta/gin) is a simple command line utility for live-reloading Go web applications. Just run `gin` in your app directory and your web app will be served with `gin` as a proxy. `gin` will automatically recompile your code when it detects a change. Your app will be restarted the next time it receives an HTTP request.
 
@@ -124,6 +129,7 @@ This command will open your browser on the URL `localhost:6060/docs`, no need of
 The following references helped me :
 
 * https://github.com/gorilla/mux
+* https://github.com/rs/cors
 * http://www.gorillatoolkit.org/pkg/mux
 * https://goswagger.io/
 * https://github.com/kkamdooong/go-restful-api-example
@@ -133,9 +139,12 @@ The following references helped me :
 # Todo
 
 [] Error handling for any system call
+[] Add correct Content-type headers
 [] Http StatusCode handling with consistent http codes implementation
 [] Versionning with version.go or local json file
 [] Full swagger documentation
 [] Authentication
+[] Production ready logs
 [] Unitary and system Tests
+[] Rate limit
 [] gRPC example/version
