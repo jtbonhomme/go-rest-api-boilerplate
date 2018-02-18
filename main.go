@@ -13,7 +13,7 @@
 // there are no TOS at this moment, use at your own risk we take no responsibility
 //
 //     Schemes: http, https
-//     Host: localhost:8000
+//     Host: localhost:3000
 //     BasePath: /v1
 //     Version: 0.0.1
 //     License: MIT http://opensource.org/licenses/MIT
@@ -55,92 +55,46 @@
 package main
 
 import (
-    "encoding/json"
-    "log"
-    "net/http"
-    "github.com/gorilla/mux"
+	"log"
+	"net/http"
+	"time"
+
+	"github.com/gorilla/mux"
+	db "github.com/jtbonhomme/go-rest-api-boilerplate/db"
+	handler "github.com/jtbonhomme/go-rest-api-boilerplate/handlers"
+	model "github.com/jtbonhomme/go-rest-api-boilerplate/model"
 )
 
-type Person struct {
-    ID        string   `json:"id,omitempty"`
-    Firstname string   `json:"firstname,omitempty"`
-    Lastname  string   `json:"lastname,omitempty"`
-    Address   *Address `json:"address,omitempty"`
+// Logger is a gorilla/mux middleware to add log to the API
+func Logger(inner http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		start := time.Now()
+
+		inner.ServeHTTP(w, r)
+
+		log.Printf(
+			"%s\t%s\t%s",
+			r.Method,
+			r.RequestURI,
+			time.Since(start),
+		)
+	})
 }
 
-type Address struct {
-    City  string `json:"city,omitempty"`
-    State string `json:"state,omitempty"`
-}
-
-var people []Person
-
-func Logger(r *http.Request) {
-    log.Printf(
-        "\t%s\t%s",
-        r.Method,
-        r.RequestURI,
-    )
-}
 // @SubApi People [/people]
 // @SubApi Allows you access to different features of the persons, name, address, etc [/people]
 
-    // swagger:route GET /people people listPersons
-    //
-    // Lists all people.
-    //
-    // This will show all available recorded people.
-    //
-    //     Consumes:
-    //     - application/json
-    //
-    //     Produces:
-    //     - application/json
-    //
-    //     Schemes: http, https
-    //
-    //     Security:
-    //       api_key: read, write
-    //       oauth: read, write
-    //
-    //     Responses:
-    //       default: genericError
-    //       200: someResponse
-    //       403: validationError
-func GetPeople(w http.ResponseWriter, r *http.Request) {
-    Logger(r);
-    json.NewEncoder(w).Encode(people)
-}
-
-// @Title Get Person Information
-// @Description Get Person Information
-// @Accept json
-// @Param id path int true &quot;Person ID&quot;
-// @Success 200 {object} string &quot;Success&quot;
-// @Failure 401 {object} string &quot;Access denied&quot;
-// @Failure 404 {object} string &quot;Not Found&quot;
-// @Resource /people
-// @Router /v1/people/:id [get]
-func GetPerson(w http.ResponseWriter, r *http.Request) {
-    Logger(r);
-    params := mux.Vars(r)
-    for _, item := range people {
-        if item.ID == params["id"] {
-            json.NewEncoder(w).Encode(item)
-        }
-    }
-}
-
 // our main function
 func main() {
-    people = append(people, Person{ID: "1", Firstname: "John", Lastname: "Doe", Address: &Address{City: "City X", State: "State X"}})
-    people = append(people, Person{ID: "2", Firstname: "Koko", Lastname: "Doe", Address: &Address{City: "City Z", State: "State Y"}})
-    people = append(people, Person{ID: "3", Firstname: "Francis", Lastname: "Sunday"})
+	db.Insert(model.Person{ID: "1", Firstname: "John", Lastname: "Doe", Address: &model.Address{City: "City X", State: "State X"}})
+	db.Insert(model.Person{ID: "2", Firstname: "Koko", Lastname: "Doe", Address: &model.Address{City: "City Z", State: "State Y"}})
+	db.Insert(model.Person{ID: "3", Firstname: "Francis", Lastname: "Sunday"})
 
-    router := mux.NewRouter()
-    sub := router.PathPrefix("/v1").Subrouter()
-    sub.HandleFunc("/people", GetPeople).Methods("GET")
-    sub.HandleFunc("/people/{id}", GetPerson).Methods("GET")
-    log.Fatal(http.ListenAndServe(":8000", router))
+	// When StrictSlash == true, if the route path is "/path/", accessing "/path" will perform a redirect to the former and vice versa.
+	router := mux.NewRouter().StrictSlash(true)
+	router.Use(Logger)
+	sub := router.PathPrefix("/v1").Subrouter()
+	sub.HandleFunc("/people", handler.GetPeople).Methods("GET")
+	sub.HandleFunc("/people/{id}", handler.GetPerson).Methods("GET")
+	log.Fatal(http.ListenAndServe(":8000", router))
 }
-

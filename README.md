@@ -60,3 +60,29 @@ $ echo "deb https://dl.bintray.com/go-swagger/goswagger-debian ubuntu main" | su
 $ brew tap go-swagger/go-swagger
 $ brew install go-swagger
 ```
+
+### Generate swagger
+
+```
+$ swagger generate spec -o ./swagger.json
+```
+
+### Serve swagger documentation
+
+#### Swagger Flavor
+
+```
+$ swagger serve --flavor=swagger --port=6060 ./swagger.json
+```
+
+This command will open your browser on the URL `petstore.swagger.io` (the official [swagger](https://swagger.io/swagger-ui/) live-demo exploration tool). This server allow you to explore any swagger json file.
+
+You can host your own swagger-ui server too: https://swagger.io/docs/swagger-tools/#download-33
+
+#### Redoc flavor
+
+```
+$ swagger serve --flavor=redoc --port=6060 ./swagger.json
+```
+This command will open your browser on the URL `localhost:6060/docs`, no need of an internet connexion to use it.
+
