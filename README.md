@@ -2,6 +2,11 @@
 
 This repository is a skeleton for building production ready Golang REST API, with Swagger documentation.
 
+We will use gorilla/mux and go-swagger packages.
+
+![](images/gorilla.png) ![](images/swagger.png)
+
+
 # Installation
 
 Assuming you have a working Go environment and GOPATH/bin is in your PATH.
@@ -119,6 +124,7 @@ This command will open your browser on the URL `localhost:6060/docs`, no need of
 The following references helped me :
 
 * https://github.com/gorilla/mux
+* http://www.gorillatoolkit.org/pkg/mux
 * https://goswagger.io/
 * https://github.com/kkamdooong/go-restful-api-example
 * https://github.com/corylanou/tns-restful-json-api
@@ -126,6 +132,9 @@ The following references helped me :
 
 # Todo
 
+[ ] Error handling with consistent http codes implementation
+[ ] Versionning with version.go or local json file
 [ ] Full swagger documentation
 [ ] Authentication
 [ ] Tests
+[ ] gRPC example/version
