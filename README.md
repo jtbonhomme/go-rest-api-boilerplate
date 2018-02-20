@@ -43,6 +43,7 @@ $ gin -h
 
 Start gin proxy to listen on port 3000 and send request to proxied app listening on port 8000:
 ```
+$ cd cmd/app
 $ gin run -p 3000 -a 8000 main.go
 ```
 
