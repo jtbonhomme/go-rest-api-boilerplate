@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"net/http"
+	"time"
 
 	"github.com/gorilla/mux"
 
@@ -70,6 +71,8 @@ func GetPerson(w http.ResponseWriter, r *http.Request) {
 	for _, item := range db.Get() {
 		if item.ID == params["id"] {
 			w.WriteHeader(http.StatusOK)
+			// add a arbitraty pause of 1 second
+			time.Sleep(1000 * time.Millisecond)
 			if err := json.NewEncoder(w).Encode(item); err != nil {
 				panic(err)
 			}

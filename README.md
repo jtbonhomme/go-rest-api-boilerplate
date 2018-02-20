@@ -87,6 +87,8 @@ $ swagger serve --flavor=swagger --port=6060 swagger-api/v1/swagger.json
 
 This command will open your browser on the URL `petstore.swagger.io` (the official [swagger](https://swagger.io/swagger-ui/) live-demo exploration tool). This server allow you to explore any swagger json file.
 
+![](images/swagger-flavor.png)
+
 You can host your own swagger-ui server too: https://swagger.io/docs/swagger-tools/#download-33
 
 #### Redoc flavor
@@ -95,6 +97,8 @@ You can host your own swagger-ui server too: https://swagger.io/docs/swagger-too
 $ swagger serve --flavor=redoc --port=6060 swagger-api/v1/swagger.json
 ```
 This command will open your browser on the URL `localhost:6060/docs`, no need of an internet connexion to use it.
+
+![](images/redoc-flavor.png)
 
 # REST API
 
@@ -128,6 +132,8 @@ This command will open your browser on the URL `localhost:6060/docs`, no need of
 
 ### models
 
+### swagger-api/v1
+
 # References
 
 The following references helped me :
@@ -145,10 +151,12 @@ The following references helped me :
 - [ ] Error handling for any system call
 - [X] Add correct Content-type headers
 - [ ] Handle correctly Accept headers
+- [ ] Handle concurrency
 - [ ] Add pagination for collections/models getters
 - [ ] Http StatusCode handling with consistent http codes implementation
 - [ ] Versionning with version.go or local json file (pathPrefix)
 - [ ] Full swagger documentation
+- [ ] Aggregate multiple miroservices API in a single Swagger end point
 - [ ] Authentication
 - [ ] Handle [eTags](http://en.wikipedia.org/wiki/HTTP_ETag)
 - [ ] Add environment variable such as listening port
